@@ -58,8 +58,8 @@ public class World extends JPanel {
                 }
                 if (map[level].getObstacles().get(enemyBullets[i].yj).getkind() == Obstacle.obstacle.home) {
                     map[level].getObstacles().get(enemyBullets[i].yj).isLive = true;
-                    //state = GAME_OVER;
                     player.life--;
+                    //state = GAME_OVER;
                     break;
                 }
             }
@@ -81,7 +81,7 @@ public class World extends JPanel {
             }
         }
         for (int i = 0; i < enemys.length; i++) {//遍历所有敌人
-            if (enemys[i].isDead()) {//若死了
+            if (enemys[i].isOutBounds() || enemys[i].isDead()) {//若死了
                 enemys[i] = enemys[enemys.length - 1];//修改越界元素为最后一个元素
                 enemys = Arrays.copyOf(enemys, enemys.length - 1);
             }
@@ -212,8 +212,8 @@ public class World extends JPanel {
 
         for (int i = 0; i < enemys.length; i++) {//遍历所有坦克
             Tanks t1 = enemys[i];//获取敌人1
-            for(int j=0;j<enemys.length;j++){
-                if(enemys[i]!=enemys[j]){
+            for (int j = 0; j < enemys.length; j++) {
+                if (enemys[i] != enemys[j]) {
                     enemys[i].is_Hit(enemys[j]);
                     enemys[j].is_Hit(enemys[i]);
                 }
@@ -284,7 +284,7 @@ public class World extends JPanel {
 
     public void isReady() {
         index++;
-        if (index % 50 == 0) {
+        if (index % 200 == 0) {
             isready = true;
         }
     }
@@ -333,20 +333,24 @@ public class World extends JPanel {
                         case KeyEvent.VK_UP:
                             player.moveUp();
                             player.is_CollisionWall(map[level]);
+
                             break;
                         case KeyEvent.VK_DOWN:
                             player.moveDown();
                             player.is_CollisionWall(map[level]);
+
                             break;
 
                         case KeyEvent.VK_LEFT:
                             player.moveLeft();
                             player.is_CollisionWall(map[level]);
+
                             break;
 
                         case KeyEvent.VK_RIGHT:
                             player.moveRight();
                             player.is_CollisionWall(map[level]);
+
                             break;
 
                         case KeyEvent.VK_SPACE:
@@ -405,14 +409,15 @@ public class World extends JPanel {
             map[level].draw(g);
 
             player.painImage(g);//画玩家坦克
+            for (int i = 0; i < enemys.length; i++) {//画敌人坦克
+                enemys[i].painImage(g);
+            }
+
             for (int i = 0; i < playerBullets.length; i++) {//画玩家子弹
                 playerBullets[i].painImage(g);
             }
             for (int i = 0; i < enemyBullets.length; i++) {//画敌人子弹
                 enemyBullets[i].painImage(g);
-            }
-            for (int i = 0; i < enemys.length; i++) {//画敌人坦克
-                enemys[i].painImage(g);
             }
 
             Images.Life.paintIcon(null, g, 5, 5);

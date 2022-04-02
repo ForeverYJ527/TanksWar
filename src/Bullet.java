@@ -31,18 +31,4 @@ public class Bullet extends Tanks {///子弹
                 return Images.BulletRight;
         }
     }
-
-    public boolean isOutBounds() {
-        switch (direction) {
-            case UP:
-                return y < 0;
-            case DOWN:
-                return y > World.HEIGHT;
-            case LEFT:
-                return x < 0;
-            default:
-                return x > World.WIDTH;
-        }//判断子弹的x，y越界
-    }
-
 }

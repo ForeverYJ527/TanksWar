@@ -132,6 +132,19 @@ public abstract class Tanks {
             }
     }
 
+    public boolean isOutBounds() {
+        switch (direction) {
+            case UP:
+                return y < 0 - 10;
+            case DOWN:
+                return y > World.HEIGHT + 10;
+            case LEFT:
+                return x < 0 - 10;
+            default:
+                return x > World.WIDTH + 10;
+        }//判断的x，y越界
+    }
+
     public void goDead() {
         state = DEAD;
     }
@@ -140,8 +153,28 @@ public abstract class Tanks {
     public boolean is_CollisionWall(Map wall) {
         for (int i = 0; i < wall.getObstacles().size(); i++) {
             if (new Rectangle(x, y, width, height).intersects(wall.getObstacles().get(i).getRec())) {
-                yj = i;
-                if (wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass){
+                if (wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass) {
+                    for (int j = 0; j < wall.getObstacles().size(); j++) {
+                        if (j != i && new Rectangle(x, y, width, height).intersects(wall.getObstacles().get(j).getRec())) {
+                            if (wall.getObstacles().get(j).getkind() == Obstacle.obstacle.sea ||
+                                    wall.getObstacles().get(j).getkind() == Obstacle.obstacle.home ||
+                                    wall.getObstacles().get(j).getkind() == Obstacle.obstacle.wall) {
+                                switch (direction) {
+                                    case UP:
+                                        y += speed;
+                                        break;
+                                    case DOWN:
+                                        y -= speed;
+                                        break;
+                                    case LEFT:
+                                        x += speed;
+                                        break;
+                                    case RIGHT:
+                                        x -= speed;
+                                }
+                            }
+                        }
+                    }
                     return false;
                 }
 
@@ -169,22 +202,9 @@ public abstract class Tanks {
         for (int i = 0; i < wall.getObstacles().size(); i++) {
             if (new Rectangle(x, y, width, height).intersects(wall.getObstacles().get(i).getRec())) {
                 yj = i;
-                if (wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass || wall.getObstacles().get(i).getkind() == Obstacle.obstacle.sea)
-                    return false;
-                switch (direction) {
-                    case UP:
-                        y += speed;
-                        break;
-                    case DOWN:
-                        y -= speed;
-                        break;
-                    case LEFT:
-                        x += speed;
-                        break;
-                    case RIGHT:
-                        x -= speed;
-                }
-                return true;
+                if (wall.getObstacles().get(i).getkind() == Obstacle.obstacle.wall || wall.getObstacles().get(i).getkind() == Obstacle.obstacle.home)
+                    return true;
+                return false;
             }
         }
         return false;
