@@ -106,6 +106,32 @@ public abstract class Tanks {
         return isHit;
     }
 
+    public void is_Hit(Tanks other) {
+        //假设this指敌人，other指敌人
+        int x1 = this.x - other.width;
+        int x2 = this.x + this.width;
+        int y1 = this.y - other.height;
+        int y2 = this.y + this.height;
+
+        int x = other.x;
+        int y = other.y;
+
+        if (x >= x1 && x <= x2 && y >= y1 && y <= y2)
+            switch (direction) {
+                case UP:
+                    this.y += speed;
+                    break;
+                case DOWN:
+                    this.y -= speed;
+                    break;
+                case LEFT:
+                    this.x += speed;
+                    break;
+                case RIGHT:
+                    this.x -= speed;
+            }
+    }
+
     public void goDead() {
         state = DEAD;
     }
@@ -114,8 +140,11 @@ public abstract class Tanks {
     public boolean is_CollisionWall(Map wall) {
         for (int i = 0; i < wall.getObstacles().size(); i++) {
             if (new Rectangle(x, y, width, height).intersects(wall.getObstacles().get(i).getRec())) {
-                if(wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass)
+                yj = i;
+                if (wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass){
                     return false;
+                }
+
                 switch (direction) {
                     case UP:
                         y += speed;
@@ -129,18 +158,18 @@ public abstract class Tanks {
                     case RIGHT:
                         x -= speed;
                 }
-                yj=i;
                 return true;
             }
         }
         return false;
     }
 
-    //判断坦克和墙体的碰撞
+    //判断子弹和墙体的碰撞
     public boolean CollisionWall(Map wall) {
         for (int i = 0; i < wall.getObstacles().size(); i++) {
             if (new Rectangle(x, y, width, height).intersects(wall.getObstacles().get(i).getRec())) {
-                if(wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass||wall.getObstacles().get(i).getkind() == Obstacle.obstacle.sea)
+                yj = i;
+                if (wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass || wall.getObstacles().get(i).getkind() == Obstacle.obstacle.sea)
                     return false;
                 switch (direction) {
                     case UP:
@@ -155,7 +184,6 @@ public abstract class Tanks {
                     case RIGHT:
                         x -= speed;
                 }
-                yj=i;
                 return true;
             }
         }

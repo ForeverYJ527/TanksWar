@@ -1,20 +1,21 @@
 import javax.swing.*;
 
 public class Bullet extends Tanks {///子弹
-    public Bullet(int x, int y,int direction) {//每个子弹的x和y和方向是不同的
+
+    public Bullet(int x, int y, int direction) {//每个子弹的x和y和方向是不同的
         super(20, 20, x, y, 2);
-        super.direction=direction;
+        super.direction = direction;
     }
 
-    public void move(){
-        if(direction==UP)
-            y-=speed;
-        if(direction==DOWN)
-            y+=speed;
-        if(direction==LEFT)
-            x-=speed;
-        if(direction==RIGHT)
-            x+=speed;
+    public void move() {
+        if (direction == UP)
+            y -= speed;
+        if (direction == DOWN)
+            y += speed;
+        if (direction == LEFT)
+            x -= speed;
+        if (direction == RIGHT)
+            x += speed;
     }
 
     //重写getImage
@@ -34,13 +35,13 @@ public class Bullet extends Tanks {///子弹
     public boolean isOutBounds() {
         switch (direction) {
             case UP:
-                return y<0;
+                return y < 0;
             case DOWN:
-                return y>World.HEIGHT;
+                return y > World.HEIGHT;
             case LEFT:
-                return x<0;
+                return x < 0;
             default:
-                return x>World.WIDTH;
+                return x > World.WIDTH;
         }//判断子弹的x，y越界
     }
 

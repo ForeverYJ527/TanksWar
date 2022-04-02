@@ -58,13 +58,12 @@ public class World extends JPanel {
                 }
                 if (map[level].getObstacles().get(enemyBullets[i].yj).getkind() == Obstacle.obstacle.home) {
                     map[level].getObstacles().get(enemyBullets[i].yj).isLive = true;
-                    state = GAME_OVER;
+                    //state = GAME_OVER;
+                    player.life--;
                     break;
                 }
             }
-
         }
-
     }
 
     //子弹，敌人越界删除处理
@@ -106,22 +105,18 @@ public class World extends JPanel {
                     enemys[i].moveUp();
                     enemys[i].is_CollisionWall(map[level]);
                 }
-
                 if (enemys[i].direction == Tanks.DOWN) {
                     enemys[i].moveDown();
                     enemys[i].is_CollisionWall(map[level]);
                 }
-
                 if (enemys[i].direction == Tanks.LEFT) {
                     enemys[i].moveLeft();
                     enemys[i].is_CollisionWall(map[level]);
                 }
-
                 if (enemys[i].direction == Tanks.RIGHT) {
                     enemys[i].moveRight();
                     enemys[i].is_CollisionWall(map[level]);
                 }
-
             }
         }
     }
@@ -151,7 +146,6 @@ public class World extends JPanel {
                     boom(t.x, t.y);
                     t.goDead();//敌人去世
                     b.goDead();//子弹去世
-
                 }
             }
         }
@@ -183,7 +177,7 @@ public class World extends JPanel {
     public void bulletBangAction() {//每10毫秒走一次
         for (int i = 0; i < enemyBullets.length; i++) {//遍历所有子弹
             for (int j = 0; j < enemyBullets.length; j++) {//遍历每个敌人
-                if (enemyBullets[i] != (enemyBullets[j])) {
+                if (enemyBullets[i] != enemyBullets[j]) {
                     Bullet b1 = enemyBullets[i];//获取子弹1
                     Bullet b2 = enemyBullets[j];//获取子弹2
                     if (b1.isLive() && b2.isLive() && b1.isHit(b2)) {//若都活着且撞上了
@@ -200,20 +194,29 @@ public class World extends JPanel {
                     boom(b1.x - 25, b1.y - 25);
                     b1.goDead();//子弹1去世
                     b2.goDead();//子弹2去世
-
                 }
             }
         }
     }
 
-    //玩家撞敌人处理
+    //坦克撞坦克处理
     public void TankBangAction() {//每10毫秒走一次
-        for (int i = 0; i < enemys.length; i++) {//遍历所有子弹
+        for (int i = 0; i < enemys.length; i++) {//遍历所有坦克
             Tanks t1 = enemys[i];//获取敌人1
             if (t1.isLive() && player.isLive() && t1.isHit(player)) {//若都活着且撞上了
                 boom(t1.x, t1.y);
                 t1.goDead();//敌人1去世
                 player.life--;
+            }
+        }
+
+        for (int i = 0; i < enemys.length; i++) {//遍历所有坦克
+            Tanks t1 = enemys[i];//获取敌人1
+            for(int j=0;j<enemys.length;j++){
+                if(enemys[i]!=enemys[j]){
+                    enemys[i].is_Hit(enemys[j]);
+                    enemys[j].is_Hit(enemys[i]);
+                }
             }
         }
     }
@@ -274,7 +277,6 @@ public class World extends JPanel {
             b = false;
         }
         stop = true;
-
     }
 
     private int index = 0;
@@ -294,6 +296,12 @@ public class World extends JPanel {
 
     public void levelUp() {
         if (enemys.length <= 0) {
+            for (int i = 0; i < playerBullets.length; i++) {
+                playerBullets[i].goDead();
+            }
+            for (int i = 0; i < enemyBullets.length; i++) {
+                enemyBullets[i].goDead();
+            }
             b = true;
             player.x = 0;
             player.y = 560;
@@ -310,7 +318,6 @@ public class World extends JPanel {
                 map = reMap;
             }
         }
-
     }
 
     public void action() {
@@ -417,7 +424,6 @@ public class World extends JPanel {
         if (state == GAME_OVER) {
             Images.Over.paintIcon(null, g, 230, 230);//画背景图
         }
-
     }
 
     public static void main(String[] args) {

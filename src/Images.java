@@ -84,7 +84,7 @@ public class Images {
         Boom = new ImageIcon("img/Boom.png");
 
         Start = new ImageIcon("img/Start.png");
-        Life=new ImageIcon("img/Life.png");
+        Life = new ImageIcon("img/Life.png");
         Over = new ImageIcon("img/Over.png");
 
         BackGround = new ImageIcon("img/BackGround.png");
@@ -135,6 +135,11 @@ public class Images {
 
         System.out.println("boom:");
         System.out.println(Boom.getImageLoadStatus());
+
+        System.out.println("others");
+        System.out.println(Start.getImageLoadStatus());
+        System.out.println(Life.getImageLoadStatus());
+        System.out.println(Over.getImageLoadStatus());
 
         System.out.println("background:");
         System.out.println(BackGround.getImageLoadStatus());
