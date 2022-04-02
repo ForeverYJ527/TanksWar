@@ -36,7 +36,7 @@ public class Map2 extends Map {
         }
     }
 
-    public void draw(Graphics g) {//����ǽ7
+    public void draw(Graphics g) {
         for (int i = 0; i < obstacles.size(); i++) {
             if (!obstacles.get(i).isLive()) {
                 obstacles.get(i).draw();
@@ -46,4 +46,14 @@ public class Map2 extends Map {
             }
         }
     }
+
+    public void drawGrass(Graphics g) {//����ǽ7
+        for (int i = 0; i < obstacles.size(); i++) {
+            if (obstacles.get(i).getkind() == Obstacle.obstacle.grass) {
+                obstacles.get(i).draw();
+                g.drawImage(obstacles.get(i).getObstacleImage(), obstacles.get(i).x, obstacles.get(i).y, 70, 70, null);
+            }
+        }
+    }
+
 }

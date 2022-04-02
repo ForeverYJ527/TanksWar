@@ -16,4 +16,8 @@ public class Map {
 
     }
 
+    public void drawGrass(Graphics g) {
+
+    }
+
 }

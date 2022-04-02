@@ -8,11 +8,11 @@ public class Map3 extends Map {
 
     int[][] obstacleArr3 = {{},
             {},
-            {0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+            {0, 0, 0, 0, 2, 2, 0, 0, 0, 0},
             {0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
             {0, 0, 1, 0, 0, 0, 0, 1, 0, 0},
-            {0, 1, 4, 4, 0, 0, 4, 4, 1, 0},
-            {1, 0, 4, 4, 0, 0, 4, 4, 0, 1},
+            {0, 1, 4, 4, 4, 4, 4, 4, 1, 0},
+            {1, 0, 4, 4, 4, 4, 4, 4, 0, 1},
             {0, 1, 4, 4, 4, 4, 4, 4, 1, 0},
             {0, 0, 1, 2, 2, 2, 2, 1, 0, 0},
             {0, 0, 0, 1, 2, 3, 1, 0, 0, 0},
@@ -46,4 +46,14 @@ public class Map3 extends Map {
             }
         }
     }
+
+    public void drawGrass(Graphics g) {
+        for (int i = 0; i < obstacles.size(); i++) {
+            if (obstacles.get(i).getkind() == Obstacle.obstacle.grass) {
+                obstacles.get(i).draw();
+                g.drawImage(obstacles.get(i).getObstacleImage(), obstacles.get(i).x, obstacles.get(i).y, 70, 70, null);
+            }
+        }
+    }
+
 }

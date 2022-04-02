@@ -41,7 +41,6 @@ public abstract class Tanks {
             y += speed;
             direction = DOWN;
         }
-
     }
 
     public void moveLeft() {
@@ -49,7 +48,6 @@ public abstract class Tanks {
             x -= speed;
             direction = LEFT;
         }
-
     }
 
     public void moveRight() {
@@ -57,7 +55,6 @@ public abstract class Tanks {
             x += speed;
             direction = RIGHT;
         }
-
     }
 
     //发射炸弹
@@ -150,7 +147,7 @@ public abstract class Tanks {
     }
 
     //判断坦克和墙体的碰撞
-    public boolean is_CollisionWall(Map wall) {
+    public void is_CollisionWall(Map wall) {
         for (int i = 0; i < wall.getObstacles().size(); i++) {
             if (new Rectangle(x, y, width, height).intersects(wall.getObstacles().get(i).getRec())) {
                 if (wall.getObstacles().get(i).getkind() == Obstacle.obstacle.grass) {
@@ -175,9 +172,8 @@ public abstract class Tanks {
                             }
                         }
                     }
-                    return false;
+                    return;
                 }
-
                 switch (direction) {
                     case UP:
                         y += speed;
@@ -191,10 +187,8 @@ public abstract class Tanks {
                     case RIGHT:
                         x -= speed;
                 }
-                return true;
             }
         }
-        return false;
     }
 
     //判断子弹和墙体的碰撞

@@ -20,9 +20,8 @@ public class World extends JPanel {
     public static final int GAME_OVER = 1;
     protected int state = START;//当前状态（默认为开始）
 
-    int level = 0;
-
-    Map[] map = {new Map1(), new Map2(), new Map3()};//地图
+    int level = 0;//第几关
+    Map[] map = {new Map1(), new Map2(), new Map3(), new Map4(), new Map5()};//地图
 
     private Player player = new Player();//玩家坦克
     private Tanks[] enemys = {new EnemyGreen(175 + 0, 20),
@@ -46,7 +45,6 @@ public class World extends JPanel {
                 }
             }
         }
-
         for (int i = 0; i < enemyBullets.length; i++) {
             enemyBullets[i].move();
             if (enemyBullets[i].CollisionWall(map[level])) {
@@ -209,7 +207,6 @@ public class World extends JPanel {
                 player.life--;
             }
         }
-
         for (int i = 0; i < enemys.length; i++) {//遍历所有坦克
             Tanks t1 = enemys[i];//获取敌人1
             for (int j = 0; j < enemys.length; j++) {
@@ -284,7 +281,7 @@ public class World extends JPanel {
 
     public void isReady() {
         index++;
-        if (index % 200 == 0) {
+        if (index % 100 == 0) {
             isready = true;
         }
     }
@@ -312,9 +309,9 @@ public class World extends JPanel {
                     new EnemyYellow(175 + 300, 20)};
             enemys = t;
             level++;
-            if (level > 2) {
+            if (level > 4) {
                 level = 0;
-                Map[] reMap = {new Map1(), new Map2(), new Map3()};
+                Map[] reMap = {new Map1(), new Map2(), new Map3(), new Map4(), new Map5()};
                 map = reMap;
             }
         }
@@ -333,26 +330,19 @@ public class World extends JPanel {
                         case KeyEvent.VK_UP:
                             player.moveUp();
                             player.is_CollisionWall(map[level]);
-
                             break;
                         case KeyEvent.VK_DOWN:
                             player.moveDown();
                             player.is_CollisionWall(map[level]);
-
                             break;
-
                         case KeyEvent.VK_LEFT:
                             player.moveLeft();
                             player.is_CollisionWall(map[level]);
-
                             break;
-
                         case KeyEvent.VK_RIGHT:
                             player.moveRight();
                             player.is_CollisionWall(map[level]);
-
                             break;
-
                         case KeyEvent.VK_SPACE:
                             if (isready) {
                                 isready = false;
@@ -412,13 +402,14 @@ public class World extends JPanel {
             for (int i = 0; i < enemys.length; i++) {//画敌人坦克
                 enemys[i].painImage(g);
             }
-
             for (int i = 0; i < playerBullets.length; i++) {//画玩家子弹
                 playerBullets[i].painImage(g);
             }
             for (int i = 0; i < enemyBullets.length; i++) {//画敌人子弹
                 enemyBullets[i].painImage(g);
             }
+
+            map[level].drawGrass(g);
 
             Images.Life.paintIcon(null, g, 5, 5);
             Font f3 = new Font("*", Font.BOLD, 60);
